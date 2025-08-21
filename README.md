@@ -1,2 +1,2 @@
 # Grayscale-Editor
-灰階圖片編輯器
+灰階影像編輯器
