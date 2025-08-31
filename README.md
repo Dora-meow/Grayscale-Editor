@@ -3,10 +3,10 @@
 
 ## 使用的套件跟版本：
 ```
- numpy ( 1.18.5 )
-	tk ( 0.1.0 )
-	pillow ( 3.1.2 )
-	matplotlib ( 3.0.3 )
+numpy ( 1.18.5 )
+tk ( 0.1.0 )
+pillow ( 3.1.2 )
+matplotlib ( 3.0.3 )
 ```
 * 安裝方法：
 	在終端機輸入  `pip install -r requirements.txt`
@@ -19,113 +19,122 @@
 以下的每個功能都用 updata() 讓圖片出現在 GUI 上 並用 draw() 畫出圖片的 histogram 出現在新跳出來的視窗上，且在使用者輸入無效參數時就不執行那個功能 (ex:輸入範圍a~b時 a>b直接 return)<br>
 	
 	
-### 開檔、存檔、另存新檔
-1. Open/save/display 256-gray-level images in the format of JPG/TIF. 
-```
+### 1. Open/save/display 256-gray-level images in the format of JPG/TIF. 
+
 用 open() 開檔、用 save() 存檔、saveAs() 另存新檔
-```    
-### 對圖片做線性、對數、指數轉換
-2. Adjust the contrast/brightness of images by changing the values of “a”
-and “b” in 3 different methods:
-(A) linearly (Y = aX +b);
-(B) exponentially (Y = exp(aX+b));
-(C) logarithmically (Y = ln(aX+b), b > 1). 
-(a) 用 linear() 產生子視窗來輸入參數，並在 dolinear() 運算
-  (b) 用 exponentail() 產生子視窗來輸入參數，並在 doexp() 運算
-  (c) 用 logarithmical() 產生子視窗來輸入參數，並在 dolog() 運算
-  最後的圖都是超過255變255、小於0變0
 
-3. 用 resize() 產生子視窗來輸入參數，並用doresize()運算
-  先把圖片換成 [ [x座標] , [y座標] ,  [灰階] ] 的陣列 
+### 2. Adjust the contrast/brightness of images by changing the values of “a” and “b” in 3 different methods:(A) linearly (Y = aX +b); (B) exponentially (Y = exp(aX+b)); (C) logarithmically (Y = ln(aX+b), b > 1). 
+(a) 用 linear() 產生子視窗來輸入參數，並在 dolinear() 運算<br>
+(b) 用 exponentail() 產生子視窗來輸入參數，並在 doexp() 運算<br>
+(c) 用 logarithmical() 產生子視窗來輸入參數，並在 dolog() 運算<br>
+最後的圖都是超過255變255、小於0變0
+
+### 3. Zoom in and shrink with respect to the images' original size by using bilinear interpolation.
+用 resize() 產生子視窗來輸入參數，並用doresize()運算
+* 先把圖片換成 [ [x座標] , [y座標] ,  [灰階] ] 的陣列 <br>
   (左上角是(0,0)，往右x增加，往下y增加)   
-
-  ex :  12   225  48   83  	         0    1     2     3     0     1     2     3     0     1    ...
-    78   58   78    5      ->     0    0     0     0     1     1     1     1     2     2    ...
-    33   59   66   40		12  225  48   83   78   58   78    5     33   59   ...
-   198   4     0    89				 
-
-  等比例放大後用雙線性差值填補點與點中間空的值
-
+	```
+	  ex :  12   225  48   83  	       0    1     2     3     0     1     2     3     0     1    ...
+	        78    58  78    5      ->     0    0     0     0     1     1     1     1     2     2    ...
+	        33    59  66   40		      12   225   48    83    78    58    78     5    33    59   ...
+	        198    4   0   89				 
+	```
+* 等比例放大後用雙線性差值填補點與點中間空的值
+	```
   ex :  0    2     4     6     0     2     4     6     0     2    ...        
-    0    0     0     0     2     2     2     2     4     4    ...
-   12  225  48   83   78   58   78    5     33   59   ...
-(放大兩倍時) (第1、3、5、7行跟列是空的)
-         
-        由左到右由上到下，用有值的四點把他們圍成的方形填滿
+         0    0     0     0     2     2     2     2     4     4    ...
+        12   225    48    83    78    58    78    5    33    59   ...
+  (放大兩倍時) (第1、3、5、7行跟列是空的)
+    ```   
+* 由左到右由上到下，用有值的四點把他們圍成的方形填滿
+	```
+  ex : (0,0) - (2,0)           (2,0) - (4,0)  		             (4,4) - (6,4)
+          |       |      ->       |       |       ->    ...    ->     |       |       
+        (0,2) - (2,2)           (2,2) - (4,2)                       (4,6) - (6,6)
+    ```
+### 4. Rotate images by user-defined degrees. 
+用 rotation() 產生子視窗來輸入參數，並用 dorotate() 運算<br>
+* 把圖片換成 `[ [x座標] , [y座標] ,  [灰階] ]` 的陣列 img1 來運算  <br>
+(左上角是 (0,0)，往右 x 增加，往下 y 增加)
+* 把圖片的中心移到(0,0)，每個點都減掉中點
+	```
+	定義旋轉矩陣 rot :  [ [  cos(a)    sin(a)    0 ]
+	                     [  -sin(a)   cos(a)    0 ]
+	                     [      0          0    1 ] ]
+	```
+* `rot * img1` 後再把圖片中心從 (0,0) 移回來，每個點都加上中點
+* 把矩陣轉回圖的矩陣
+* 因轉完角度的圖有的點會沒有值(像有雜訊一樣)，所以在 medianFilter() 用 for 迴圈把值補上<br>
+ (把點換成周圍包含自己的9個點的中位數)
 
-  ex : (0,0) - (2,0)           (2,0) - (4,0)  		         (4,4) - (6,4)
-      |         |        ->       |         |       ->    ...    ->        |         |       
-   (0,2) - (2,2)           (2,2) - (4,2)                         (4,6) - (6,6)
+### 5. Gray-level slicing: display images from a certain range of gray levels given by users.
+**Requirements:**
+**(1) users can define the range of gray levels to be displayed;**
+**(2) users can choose either preserve the original values of unselected areas or display them as black color.**
+用 glSlicing() 產生子視窗來輸入參數，並用 doglSlicing() 運算<br>
+* 用 for 迴圈把選取範圍內的灰階值變255 ，在glSlicing()產生的子視窗中如果勾選Yes，範圍外的值不變；選No值變0 (如果使用者沒選會自動選Yes)
+
+### 6. Display the histogram of images. An “auto-level” function by using histogram equalization should be provided.
+用 al() 做 auto-level (histogram equalization)，在 draw() 用 matplotlib 套件畫 histogram
+* 用 count() 得到圖片中每個色階值有幾個點，算每個色階值出現的機率 -> 算色階跟數量的CDF -> 全部乘255 -> 四捨五入到整數  (把公式分步驟做)，把圖片的色階值改成調整後的
+	```
+	ex : 運算後的陣列 :
+		       0 1 2 3 4 5
+	      	s=[0,0,1,2,3,5]     ->    色階0變0,色階1變0,色階2變1,色階3變2,色階4變3,色階5還是5
+	```
+### 7. Bit-Plane images: display the bit-plane images for the input image.
+**Requirements: users should be able to select which bit-plane image to be displayed.**
+用 bPlane() 產生子視窗來用下拉式選單選參數，並用 dobPlane() 運算
+* 用 for 迴圈把選那個一位bit是1值變255其他變0
+
+### 8. Smoothing and sharpening: providing smoothing and sharpening options for the input images by using spatial filters. 
+**Requirements: the levels of smoothing and sharpening should be defined by users via GUI.**
+
+1. 用 mysmooth() 產生子視窗來選參數(平滑程度1~10) ，並用 domysmooth() 運算
+  	* 把圖的外圍補上參數圈個0，用 for 迴圈把每個點跟其外面幾圈來做平均
+		```
+		ex : 參數=2     1  1  1  1  1       -> 每次5*5個點取平均填入
+	                    1  1  1  1  1
+	                    1  1  點 1  1
+		                1  1  1  1  1
+		                1  1  1  1  1
+		```
+2. 用 mysharp() 產生子視窗來選參數(銳利程度1~10) ，並用 domysharp() 運算
+	* 取得參數後用參數的0.3倍來做(一倍會一次銳利太多)
+	* 複製原圖，用 for 迴圈把每個點變成 (點的上下左右各個一點相加)*參數再減掉原本點的4*參數倍)
+	* 最後把原圖減掉運算後的圖，超過255變255、小於0變0
   
-4. 用 rotation() 產生子視窗來輸入參數，並用 dorotate() 運算
-  把圖片換成 [ [x座標] , [y座標] ,  [灰階] ] 的陣列 img1 來運算  
-  (左上角是(0,0)，往右x增加，往下y增加)
-        先把圖片的中心移到(0,0)，每個點都減掉中點
-  定義旋轉矩陣 rot :  [ [  cos(a)    sin(a)    0 ]
-            [  -sin(a)   cos(a)    0 ]
-            [      0          0        1 ] ]
-  rot * img1 後再把圖片中心從(0,0)移回來，每個點都加上中點
-  把矩陣轉回圖的矩陣
-  因轉完角度的圖有的點會沒有值(像有雜訊一樣)，所以在 medianFilter() 用 for 迴圈把值補上
-  (把點換成周圍包含自己的9個點的中位數)
-  
-5. 用 glSlicing() 產生子視窗來輸入參數，並用 doglSlicing() 運算
-  用 for 迴圈把選取範圍內的灰階值變255 ，在glSlicing()產生的子視窗中如果勾選Yes，範圍外的值不變；選No值變0 (如果使用者沒選會自動選Yes)
 
-6. 用 al() 做 auto-level (histogram equalization)，在 draw() 用 matplotlib 套件畫 histogram
-  用 count() 得到圖片中每個色階值有幾個點，算每個色階值出現的機率 -> 算色階跟數量的CDF -> 全部乘255 -> 四捨五入到整數  (把公式分步驟做)，把圖片的色階值改成調整後的
-  ex : 運算後的陣列 :
-        0 1 2 3 4 5
-   s=[0,0,1,2,3,5]     ->    色階0變0,色階1變0,色階2變1,色階3變2,色階4變3,色階5還是5
-
-7. 用 bPlane() 產生子視窗來用下拉式選單選參數，並用 dobPlane() 運算
-  用 for 迴圈把選那個一位bit是1值變255其他變0
-
-8. (1)用 mysmooth() 產生子視窗來選參數(平滑程度1~10) ，並用 domysmooth() 運算
-  把圖的外圍補上參數圈個0，用 for 迴圈把每個點跟其外面幾圈來做平均
-  
-   ex : 參數=2    1  1  1  1  1       -> 每次5*5個點取平均填入
-       1  1  1  1  1
-       1  1 點 1  1
-       1  1  1  1  1
-       1  1  1  1  1
-
-  (2)用 mysharp() 產生子視窗來選參數(銳利程度1~10) ，並用 domysharp() 運算
-  取得參數後用參數的0.3倍來做(一倍會一次銳利太多)
-  複製原圖，用 for 迴圈把每個點變成 (點的上下左右各個一點相加)*參數再減掉原本點的4*參數倍)
-  最後把原圖減掉運算後的圖，超過255變255、小於0變0
-  
-
-其他 : 多加 復原 Undo() 及 取消復原 Redo() 功能 
-         每次執行上面的功能，只要有改變圖片就會在 updata() 裡把圖片丟進叫historyPhotos 的陣列，每次執行 Undo() 就 pop 掉最右邊的圖並丟進陣列 redoPhotos 裡，然後顯示 pop 後 historyPhotos 最右邊的圖
-   執行 Redo() 會 pop redoPhotos 最右邊的圖並丟進 historyPhotos 並顯示
-   執行 Undo() Redo() 以外的 updata() 都會將 redoPhotos 清空(因沒有可以取消復原的東西)
+### 其他 : 多加 復原 Undo() 及 取消復原 Redo() 功能 
+每次執行上面的功能，只要有改變圖片就會在 updata() 裡把圖片丟進叫historyPhotos 的陣列，每次執行 Undo() 就 pop 掉最右邊的圖並丟進陣列 redoPhotos 裡，然後顯示 pop 後 historyPhotos 最右邊的圖
+* 執行 Redo() 會 pop redoPhotos 最右邊的圖並丟進 historyPhotos 並顯示
+* 執行 Undo() Redo() 以外的 updata() 都會將 redoPhotos 清空(因沒有可以取消復原的東西)
 
 
 
-三、介面使用說明
-        執行 hw1.py 後會跳出一個介面，上面有選單
-	
-	點 File 會出現三個子選單，
-	New file 能開啟新檔、Save 是儲存到原本檔案、Save as... 是另存
+## 介面使用說明
+* 執行 hw1.py 後會跳出一個介面，上面有選單
+
+* 點 File 會出現三個子選單，<br>
+	New file 能開啟新檔、Save 是儲存到原本檔案、Save as... 是另存<br>
 	開啟檔案後圖片會出現在介面上，還會跳出有histogram的視窗	
 
-	Undo 能復原、Redo 能取消復原 (儲存或另存後還可復原，開啟新檔後不行)
-	
-	點 Contrast/Brightness 會出現三個子選單，每個點入都會出現子視窗能輸入a, b
-	Linear 做(aX +b)、Exponential 做exp(aX+b)、Logarithmical 是ln(aX+b) 來調整亮度與對比
-	按下Enter即可執行
+* Undo 能復原、Redo 能取消復原 (儲存或另存後還可復原，開啟新檔後不行)
 
-	點 Change size 會出現子視窗能輸入縮放比率(%) (ex: 輸入150 -> 原圖放大1.5倍)
+點 Contrast/Brightness 會出現三個子選單，每個點入都會出現子視窗能輸入a, b
+Linear 做(aX +b)、Exponential 做exp(aX+b)、Logarithmical 是ln(aX+b) 來調整亮度與對比
+按下Enter即可執行
 
-	點 Rotate 會出現子視窗能輸入轉的角度(逆時針轉) (ex: 輸入150 -> 轉150度)
-	轉完後超出方形範圍的部分會被切掉
+點 Change size 會出現子視窗能輸入縮放比率(%) (ex: 輸入150 -> 原圖放大1.5倍)
 
-	點 Gray-level slicing 會出現子視窗能輸入範圍及選擇是否保留
+點 Rotate 會出現子視窗能輸入轉的角度(逆時針轉) (ex: 輸入150 -> 轉150度)
+轉完後超出方形範圍的部分會被切掉
 
-	點 Auto-level 會做 histogram equalization，直接更改圖片
+點 Gray-level slicing 會出現子視窗能輸入範圍及選擇是否保留
 
-	點 Bit-Plane 會出現子視窗能選擇二進制從右邊數來第幾位構成的圖
+點 Auto-level 會做 histogram equalization，直接更改圖片
 
-	點 Smoothing & Sharpening 會出現兩個子選單分別可以選程度1~10
-	    
+點 Bit-Plane 會出現子視窗能選擇二進制從右邊數來第幾位構成的圖
+
+點 Smoothing & Sharpening 會出現兩個子選單分別可以選程度1~10
+
