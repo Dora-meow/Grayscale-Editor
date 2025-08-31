@@ -13,16 +13,24 @@
 
 ## 程式說明
 所有功能都在 `hw1.py` 內完成，除了畫 histogram 用 matplotlib 套件，其他功能都自己用 python 實作<br>
-部分功能會跑比較久 ex : Change size、Rotate、Smooth<br>
-用 tk 產生 GUI (這段在hw1.py最下面)<br>
+* 部分功能會跑比較久 ex : Change size、Rotate、Smooth<br>
+* 用 tk 產生 GUI (這段在hw1.py最下面)<br>
 	
 以下的每個功能都用 updata() 讓圖片出現在 GUI 上 並用 draw() 畫出圖片的 histogram 出現在新跳出來的視窗上，且在使用者輸入無效參數時就不執行那個功能 (ex:輸入範圍a~b時 a>b直接 return)<br>
 	
 	
-### 1. Open/save/display 256-gray-level images in the format of JPG/TIF. 
+### 開檔、存檔、另存新檔
+1. Open/save/display 256-gray-level images in the format of JPG/TIF. 
+```
 用 open() 開檔、用 save() 存檔、saveAs() 另存新檔
-	    
-2. (a) 用 linear() 產生子視窗來輸入參數，並在 dolinear() 運算
+```    
+### 對圖片做線性、對數、指數轉換
+2. Adjust the contrast/brightness of images by changing the values of “a”
+and “b” in 3 different methods:
+(A) linearly (Y = aX +b);
+(B) exponentially (Y = exp(aX+b));
+(C) logarithmically (Y = ln(aX+b), b > 1). 
+(a) 用 linear() 產生子視窗來輸入參數，並在 dolinear() 運算
   (b) 用 exponentail() 產生子視窗來輸入參數，並在 doexp() 運算
   (c) 用 logarithmical() 產生子視窗來輸入參數，並在 dolog() 運算
   最後的圖都是超過255變255、小於0變0
