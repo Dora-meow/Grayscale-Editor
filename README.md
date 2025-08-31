@@ -17,7 +17,8 @@ matplotlib ( 3.0.3 )
 * 用 tk 產生 GUI (這段在hw1.py最下面)<br>
 	
 以下的每個功能都用 updata() 讓圖片出現在 GUI 上 並用 draw() 畫出圖片的 histogram 出現在新跳出來的視窗上，且在使用者輸入無效參數時就不執行那個功能 (ex:輸入範圍a~b時 a>b直接 return)<br>
-	
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/7894e5d4-8e0c-46e5-b71f-b3c62b9ef7c7" />
+
 	
 ### 1. Open/save/display 256-gray-level images in the format of JPG/TIF. 
 
