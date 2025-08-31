@@ -122,20 +122,28 @@ matplotlib ( 3.0.3 )
 
 * Undo 能復原、Redo 能取消復原 (儲存或另存後還可復原，開啟新檔後不行)
 
-點 Contrast/Brightness 會出現三個子選單，每個點入都會出現子視窗能輸入a, b
-Linear 做(aX +b)、Exponential 做exp(aX+b)、Logarithmical 是ln(aX+b) 來調整亮度與對比
-按下Enter即可執行
+* 點 Contrast/Brightness 會出現三個子選單，每個點入都會出現子視窗能輸入a, b<br>
+ Linear 做(aX +b)、Exponential 做exp(aX+b)、Logarithmical 是ln(aX+b) 來調整亮度與對比<br>
+ 按下Enter即可執行
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/b11dcba6-0c8a-4841-888f-34750383a4eb" />
 
-點 Change size 會出現子視窗能輸入縮放比率(%) (ex: 輸入150 -> 原圖放大1.5倍)
+* 點 Change size 會出現子視窗能輸入縮放比率(%) (ex: 輸入150 -> 原圖放大1.5倍)
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/21432b32-34e1-4315-a098-76cd159876f3" />
 
-點 Rotate 會出現子視窗能輸入轉的角度(逆時針轉) (ex: 輸入150 -> 轉150度)
-轉完後超出方形範圍的部分會被切掉
+* 點 Rotate 會出現子視窗能輸入轉的角度(逆時針轉) (ex: 輸入150 -> 轉150度)<br>
+	轉完後超出方形範圍的部分會被切掉
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/c41c8d3f-ef3b-4ea0-b145-7a447157e83b" />
 
-點 Gray-level slicing 會出現子視窗能輸入範圍及選擇是否保留
+* 點 Gray-level slicing 會出現子視窗能輸入範圍及選擇是否保留
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/cdb8b6a1-96de-4c24-b707-7d27ea605091" />
 
-點 Auto-level 會做 histogram equalization，直接更改圖片
+* 點 Auto-level 會做 histogram equalization，直接更改圖片
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/0d18bb8f-6a9e-4833-ac7d-0e6a0f3c59e4" />
 
-點 Bit-Plane 會出現子視窗能選擇二進制從右邊數來第幾位構成的圖
+* 點 Bit-Plane 會出現子視窗能選擇二進制從右邊數來第幾位構成的圖
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/65fa3af4-1337-44a5-8ba5-eb67c3b46d89" />
 
-點 Smoothing & Sharpening 會出現兩個子選單分別可以選程度1~10
+* 點 Smoothing & Sharpening 會出現兩個子選單分別可以選程度1~10
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/cc23384d-5bcc-4e33-8254-8a7d23768c69" />
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/e65dedb0-d0f7-43ac-893b-af846b14657b" />
 
