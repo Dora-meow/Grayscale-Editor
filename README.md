@@ -1,6 +1,20 @@
 # Grayscale-Editor
 灰階影像編輯器
 
+## 簡介
+用python實作，對灰階影像做基本影像處理
+
+主要功能：
+1. 開檔、存檔、另存新檔
+2. 線性、指數、對數轉換調整亮度對比
+3. 縮放影像
+4. 旋轉影像
+5. Gray-level slicing（灰階切片）
+6. histogram equalization ()直方圖等化
+7. Bit-plane images (位元平面切片)
+8. 模糊、銳化
+9. 復原、取消復原
+
 ## 使用的套件跟版本：
 ```
 numpy ( 1.18.5 )
@@ -13,8 +27,8 @@ matplotlib ( 3.0.3 )
 
 ## 程式說明
 所有功能都在 `hw1.py` 內完成，除了畫 histogram 用 matplotlib 套件，其他功能都自己用 python 實作<br>
-* 部分功能會跑比較久 ex : Change size、Rotate、Smooth<br>
-* 用 tk 產生 GUI (這段在hw1.py最下面)<br>
+* 部分功能會跑比較久 ex : Change size、Rotate、Smooth
+* 用 tk 產生 GUI (這段在hw1.py最下面)
 	
 以下的每個功能都用 updata() 讓圖片出現在 GUI 上 並用 draw() 畫出圖片的 histogram 出現在新跳出來的視窗上，且在使用者輸入無效參數時就不執行那個功能 (ex:輸入範圍a~b時 a>b直接 return)<br>
 <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/7894e5d4-8e0c-46e5-b71f-b3c62b9ef7c7" />
@@ -69,9 +83,9 @@ matplotlib ( 3.0.3 )
  (把點換成周圍包含自己的9個點的中位數)
 
 ### 5. Gray-level slicing: display images from a certain range of gray levels given by users.
-**Requirements:**
-**(1) users can define the range of gray levels to be displayed;**
-**(2) users can choose either preserve the original values of unselected areas or display them as black color.**
+**Requirements:**<br>
+**(1) users can define the range of gray levels to be displayed;**<br>
+**(2) users can choose either preserve the original values of unselected areas or display them as black color.**<br>
 用 glSlicing() 產生子視窗來輸入參數，並用 doglSlicing() 運算<br>
 * 用 for 迴圈把選取範圍內的灰階值變255 ，在glSlicing()產生的子視窗中如果勾選Yes，範圍外的值不變；選No值變0 (如果使用者沒選會自動選Yes)
 
@@ -84,7 +98,7 @@ matplotlib ( 3.0.3 )
 	      	s=[0,0,1,2,3,5]     ->    色階0變0,色階1變0,色階2變1,色階3變2,色階4變3,色階5還是5
 	```
 ### 7. Bit-Plane images: display the bit-plane images for the input image.
-**Requirements: users should be able to select which bit-plane image to be displayed.**
+**Requirements: users should be able to select which bit-plane image to be displayed.**<br>
 用 bPlane() 產生子視窗來用下拉式選單選參數，並用 dobPlane() 運算
 * 用 for 迴圈把選那個一位bit是1值變255其他變0
 
